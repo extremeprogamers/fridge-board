@@ -19,8 +19,8 @@ bool add(string message) {
     return true;
 }
 
-bool remove(string message) {
-    storage.erase(storage.begin());
+bool remove(int id) {
+    storage.erase(storage.begin() + id);
     return true;
 }
 

@@ -11,7 +11,7 @@ using namespace testing;
 class MockMessagesRepository : public MessagesRepository {
 public:
     MOCK_METHOD1(add, bool(string));
-    MOCK_METHOD1(remove, bool(string));
+    MOCK_METHOD1(remove, bool(int));
     MOCK_METHOD0(getAll, vector<string>(void));
     MOCK_METHOD0(clear, bool(void));
 };
@@ -20,9 +20,7 @@ class MockComposer : public Composer {
 public:
     MOCK_METHOD1(composeSite, const char *(vector<string>));
     MOCK_METHOD1(composeGetMessages, string(vector<string>));
-    MOCK_METHOD1(composeMessage, string(string));
-    MOCK_METHOD2(composeAdd, const char *(string, bool));
-    MOCK_METHOD2(composeRemoved, const char *(string, bool));
+    MOCK_METHOD2(composeMessage, string(string, int));
 };
 
 TEST(dispatcher, getMsgs) {
@@ -69,7 +67,7 @@ TEST(dispatcher, removeMsg) {
     MockComposer mockComposer;
     EndpointDispatcher *dispatcher = new EndpointDispatcher(&mockRepository, &mockComposer);
 
-    EXPECT_CALL(mockRepository, remove("test"))
+    EXPECT_CALL(mockRepository, remove(5))
         .Times(1);
 
     //when

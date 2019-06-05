@@ -32,7 +32,7 @@ TEST(database, remove) {
     database.add(message1);
     vector<string> result = database.getAll();
     ASSERT_EQ(result.size(), 1);
-    database.remove(message1);
+    database.remove(0);
     result = database.getAll();
     ASSERT_EQ(result.size(), 0);
 }

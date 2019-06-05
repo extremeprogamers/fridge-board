@@ -30,7 +30,7 @@ public:
     }
 
     void *deleteMsg(int id) {
-        repository->remove("test");
+        repository->remove(id);
     }
 };
 
