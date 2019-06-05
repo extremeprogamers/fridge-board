@@ -16,12 +16,14 @@ EndpointDispatcher *dispatcher = new EndpointDispatcher(db, composer);
 void handleRoot()
 {
   server.send(200, "text/html", dispatcher->getMsgs());
-  vector<string> messages = db->getAll();
-  string message;
-  for(auto & element : messages) {
-    message += element;
-  }
-  Serial.println(message.c_str());
+}
+
+void handleDelete()
+{
+  int id = server.arg("messageId").toInt();
+  dispatcher->deleteMsg(id);
+  server.sendHeader("Location", String("/"), true);
+  server.send(302, "text/html", "");
 }
 
 void handlePost()
@@ -31,13 +33,13 @@ void handlePost()
   message.toCharArray(_message, sizeof(_message));
   dispatcher->postMsg(_message);
   server.sendHeader("Location", String("/"), true);
-  server.send(302, "text/plain", "");
+  server.send(302, "text/html", "");
 }
 
 void sendCss()
 {
   File file = SPIFFS.open("/materialize.min.css", "r"); // Open it
-  size_t sent = server.streamFile(file, "text/css");    // And send it to the client
+  server.streamFile(file, "text/css");    // And send it to the client
   file.close();
 }
 
@@ -67,6 +69,7 @@ void setup()
   server.on("/materialize.min.css", HTTP_GET, sendCss);
   server.on("/", handleRoot);
   server.on("/messages", HTTP_POST, handlePost);
+  server.on("/messages/delete", HTTP_POST, handleDelete);
   server.begin();
   Serial.println("HTTP server started");
 }
