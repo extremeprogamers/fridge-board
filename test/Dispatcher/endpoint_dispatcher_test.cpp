@@ -8,8 +8,7 @@
 
 using namespace testing;
 
-class MockMessagesRepository : public MessagesRepository
-{
+class MockMessagesRepository : public MessagesRepository {
 public:
     MOCK_METHOD1(add, bool(string));
     MOCK_METHOD1(remove, bool(string));
@@ -17,7 +16,7 @@ public:
     MOCK_METHOD0(clear, bool(void));
 };
 
-class MockComposer : public Composer{
+class MockComposer : public Composer {
 public:
     MOCK_METHOD1(composeSite, const char *(vector<string>));
     MOCK_METHOD1(composeGetMessages, string(vector<string>));
@@ -26,8 +25,7 @@ public:
     MOCK_METHOD2(composeRemoved, const char *(string, bool));
 };
 
-TEST(dispatcher, getMsgs)
-{
+TEST(dispatcher, getMsgs) {
     //given
     MockMessagesRepository mockRepository;
     MockComposer mockComposer;
@@ -52,8 +50,7 @@ TEST(dispatcher, getMsgs)
     ASSERT_EQ(messages, "<html><body>Wiadomosci: 1, 2</body></html>");
 }
 
-TEST(dispatcher, postMsg)
-{
+TEST(dispatcher, postMsg) {
     //given
     MockMessagesRepository mockRepository;
     MockComposer mockComposer;
@@ -66,8 +63,7 @@ TEST(dispatcher, postMsg)
     dispatcher->postMsg("test");
 }
 
-TEST(dispatcher, removeMsg)
-{
+TEST(dispatcher, removeMsg) {
     //given
     MockMessagesRepository mockRepository;
     MockComposer mockComposer;
@@ -80,8 +76,7 @@ TEST(dispatcher, removeMsg)
     dispatcher->deleteMsg(5);
 }
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     ::testing::InitGoogleMock(&argc, argv);
     return RUN_ALL_TESTS();
 }

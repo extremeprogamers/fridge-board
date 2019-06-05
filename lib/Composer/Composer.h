@@ -4,7 +4,7 @@
 
 using namespace std;
 
-class Composer{
+class Composer {
 public:
     virtual const char *composeSite(vector<string> messages) = 0;
     virtual string composeGetMessages(vector<string> messages) = 0;
