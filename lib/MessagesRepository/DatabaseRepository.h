@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include "MessagesRepository.h"
+#include "Message.h"
 
 using namespace std;
 
@@ -15,12 +16,13 @@ private:
 
 public:
 bool add(string message) {
-    storage.push_back(message);
+    auto p = make_unique(MessagesRepository(message));
+    storage.emplace(p->id, move(p));
     return true;
 }
 
-bool remove(string message) {
-    storage.erase(storage.begin());
+bool remove(int id) {
+    storage.erase(id);
     return true;
 }
 
