@@ -6,13 +6,11 @@
 
 ESP8266WebServer server(80);
 
-void handleRoot()
-{
+void handleRoot(){
   server.send(200, "text/plain", "hello from esp8266!");
 }
 
-void setup()
-{
+void setup(){
   IPAddress ip(192, 168, 11, 23);
   IPAddress gateway(192, 168, 11, 1);
   IPAddress subnet(255, 255, 255, 0);
@@ -23,12 +21,10 @@ void setup()
 
   Serial.print("Setting soft-AP ... ");
   boolean result = WiFi.softAP("ESPSKAR", "password");
-  if (result == true)
-  {
+  if (result == true){
     Serial.println("Ready");
   }
-  else
-  {
+  else{
     Serial.println("Failed!");
   }
 
@@ -37,8 +33,7 @@ void setup()
   Serial.println("HTTP server started");
 }
 
-void loop()
-{
+void loop(){
   server.handleClient();
   MDNS.update();
 }
