@@ -1,9 +1,21 @@
 #include "Composer.h"
 
+#include <sstream>
+#include "string.h"
+
+template <typename T>
+std::string to_string(const T &obj)
+{
+    std::stringstream ss;
+    ss << obj;
+    return ss.str();
+}
+
 class ComposerImpl : public Composer
 {
 public:
-    const char *composeSite(vector<string> messages) {
+    const char *composeSite(vector<string> messages)
+    {
         string t = "<html>\n"
                    "\n"
                    "<meta name=\"viewport\" content=\"width=device-width\">\n"
@@ -36,30 +48,28 @@ public:
         return out.c_str();
     };
 
-    string composeGetMessages(vector<string> messages) {
+    string composeGetMessages(vector<string> messages)
+    {
         string message;
-        for (auto &element : messages)
+        for (int i = 0; i < messages.size(); i++)
         {
-            message += composeMessage(element);
+            message += composeMessage(messages.at(i), i);
         }
         return message;
     };
 
-    string composeMessage(string msg) {
-        return "            <tbody>\n"
-               "                <tr>\n"
-               "                    <td>" +
-               msg + "</td>\n"
-                     "<td><a href=\"/messages\" method=\"DELETE\" class=\"waves-effect waves-light btn red\">DELETE</a></td>"
-                     "                </tr>\n"
-                     "            </tbody>";
-    };
-
-    const char *composeAdd(string msg, bool added) { 
-        return "";
-     };
-
-    const char *composeRemoved(string msg, bool removed) { 
-        return "";
+    string composeMessage(string msg, int id)
+    {
+        char str[12];
+        sprintf(str, "%d", id);
+        string s = str;
+        return "<tr>"
+               "<form action=\"/messages/delete\" method=\"post\">"
+               "<input type=\"hidden\" name=\"messageId\" value=" + s + "\"/>"
+               "<td>" +
+               msg + "</td>"
+                     "<td><input type=\"submit\" class=\"waves-effect waves-light btn red\" value=\"DELETE\"></td>"
+                     "</form>"
+                     "</tr>";
     };
 };
