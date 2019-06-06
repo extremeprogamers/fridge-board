@@ -12,7 +12,7 @@ std::string to_string(const T &obj){
 
 class ComposerImpl : public Composer{
 public:
-    const char *composeSite(std::vector<std::string> messages){
+    const char *composeSite(std::map<int, std::string> messages){
         std::string t = "<html>\n"
                    "\n"
                    "<meta name=\"viewport\" content=\"width=device-width\">\n"
@@ -45,10 +45,10 @@ public:
         return out.c_str();
     };
 
-    std::string composeGetMessages(std::vector<std::string> messages){
+    std::string composeGetMessages(std::map<int, std::string> messages){
         std::string message;
-        for (int i = 0; i < messages.size(); i++){
-            message += composeMessage(messages.at(i), i);
+        for (std::map<int, std::string>::iterator it = messages.begin(); it != messages.end(); ++it){
+            message += composeMessage(it->second, it->first);
         }
         return message;
     };

@@ -19,7 +19,7 @@ public:
         this->composer = comp;
     }
     const char *getMsgs() {
-        std::vector<std::string> messages = this->repository->getAll();
+        std::map<int, std::string> messages = this->repository->getAll();
         return this->composer->composeSite(messages);
     }
 

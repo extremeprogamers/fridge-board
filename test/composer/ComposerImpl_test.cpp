@@ -12,9 +12,9 @@ TEST(composer, composeSite)
     //given
     ComposerImpl *composer = new ComposerImpl();
 
-    std::vector<std::string> msgs;
-    msgs.push_back("test1");
-    msgs.push_back("test2");
+    std::map<int, std::string> msgs;
+    msgs.emplace(0, "test1");
+    msgs.emplace(1, "test2");
     //when
     const char *messages = composer->composeSite(msgs);
 

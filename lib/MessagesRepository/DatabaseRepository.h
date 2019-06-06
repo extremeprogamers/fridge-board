@@ -9,20 +9,21 @@
 
 class DatabaseRepository : public MessagesRepository {
 private:
-    std::vector<std::string> storage;
+    std::map<int, std::string> storage;
+    static int currentIndex;
 
 public:
 bool add(std::string message) {
-    storage.push_back(message);
+    storage.emplace(currentIndex++, message);
     return true;
 }
 
 bool remove(int id) {
-    storage.erase(storage.begin() + id);
+    storage.erase(id);
     return true;
 }
 
-std::vector<std::string> getAll() {
+std::map<int, std::string> getAll() {
     return storage;
 }
 
