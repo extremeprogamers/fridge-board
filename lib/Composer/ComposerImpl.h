@@ -12,8 +12,8 @@ std::string to_string(const T &obj){
 
 class ComposerImpl : public Composer{
 public:
-    const char *composeSite(vector<string> messages){
-        string t = "<html>\n"
+    const char *composeSite(std::vector<std::string> messages){
+        std::string t = "<html>\n"
                    "\n"
                    "<meta name=\"viewport\" content=\"width=device-width\">\n"
                    "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"
@@ -30,8 +30,8 @@ public:
                    "      </tr>\n"
                    "    </thead>\n"
                    "\n";
-        string t2 = composeGetMessages(messages);
-        string t3 = "    </table>\n"
+        std::string t2 = composeGetMessages(messages);
+        std::string t3 = "    </table>\n"
                     "  </ul>\n"
                     "  <br> <br> \n"
                     "  <form action=\"/messages\" method=\"post\">\n"
@@ -41,22 +41,22 @@ public:
                     "</div>\n"
                     "</body>\n"
                     "</html>";
-        string out = t + t2 + t3;
+        std::string out = t + t2 + t3;
         return out.c_str();
     };
 
-    string composeGetMessages(vector<string> messages){
-        string message;
+    std::string composeGetMessages(std::vector<std::string> messages){
+        std::string message;
         for (int i = 0; i < messages.size(); i++){
             message += composeMessage(messages.at(i), i);
         }
         return message;
     };
 
-    string composeMessage(string msg, int id){
+    std::string composeMessage(std::string msg, int id){
         char str[12];
         sprintf(str, "%d", id);
-        string s = str;
+        std::string s = str;
         return "<tr>"
                "<form action=\"/messages/delete\" method=\"post\">"
                "<input type=\"hidden\" name=\"messageId\" value=" + s + "\"/>"
