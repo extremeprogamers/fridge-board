@@ -26,9 +26,9 @@ void handleDelete() {
 
 void handlePost() {
   String message = server.arg("note");
-  char _message[sizeof(message)];
-  message.toCharArray(_message, sizeof(_message));
-  dispatcher->postMsg(_message);
+  Serial.println(message);
+  std::string str = message.c_str();
+  dispatcher->postMsg(str);
   server.sendHeader("Location", String("/"), true);
   server.send(302, "text/html", "");
 }
@@ -45,7 +45,7 @@ void setup() {
   IPAddress gateway(192, 168, 11, 1);
   IPAddress subnet(255, 255, 255, 0);
   WiFi.config(ip, gateway, subnet);
-  Serial.begin(115200);
+  Serial.begin(9600);
   Serial.println();
   Serial.println(WiFi.localIP());
 
