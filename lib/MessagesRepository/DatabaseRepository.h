@@ -7,14 +7,12 @@
 #include <vector>
 #include "MessagesRepository.h"
 
-using namespace std;
-
 class DatabaseRepository : public MessagesRepository {
 private:
-    vector<string> storage;
+    std::vector<std::string> storage;
 
 public:
-bool add(string message) {
+bool add(std::string message) {
     storage.push_back(message);
     return true;
 }
@@ -24,7 +22,7 @@ bool remove(int id) {
     return true;
 }
 
-vector<string> getAll() {
+std::vector<std::string> getAll() {
     return storage;
 }
 

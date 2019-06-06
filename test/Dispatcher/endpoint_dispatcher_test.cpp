@@ -10,17 +10,17 @@ using namespace testing;
 
 class MockMessagesRepository : public MessagesRepository {
 public:
-    MOCK_METHOD1(add, bool(string));
+    MOCK_METHOD1(add, bool(std::string));
     MOCK_METHOD1(remove, bool(int));
-    MOCK_METHOD0(getAll, vector<string>(void));
+    MOCK_METHOD0(getAll, std::vector<std::string>(void));
     MOCK_METHOD0(clear, bool(void));
 };
 
 class MockComposer : public Composer {
 public:
-    MOCK_METHOD1(composeSite, const char *(vector<string>));
-    MOCK_METHOD1(composeGetMessages, string(vector<string>));
-    MOCK_METHOD2(composeMessage, string(string, int));
+    MOCK_METHOD1(composeSite, const char *(std::vector<std::string>));
+    MOCK_METHOD1(composeGetMessages, std::string(std::vector<std::string>));
+    MOCK_METHOD2(composeMessage, std::string(std::string, int));
 };
 
 TEST(dispatcher, getMsgs) {
@@ -29,8 +29,8 @@ TEST(dispatcher, getMsgs) {
     MockComposer mockComposer;
     EndpointDispatcher *dispatcher = new EndpointDispatcher(&mockRepository, &mockComposer);
 
-    vector<string> mockMessages;
-    string t1 = "test";
+    std::vector<std::string> mockMessages;
+    std::string t1 = "test";
     mockMessages.push_back(t1);
 
     EXPECT_CALL(mockComposer, composeSite(mockMessages))

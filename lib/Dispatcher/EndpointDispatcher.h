@@ -8,8 +8,6 @@
 #include "MessagesRepository.h"
 #include "Composer.h"
 
-using namespace std;
-
 class EndpointDispatcher {
 private:
     MessagesRepository *repository;
@@ -21,11 +19,11 @@ public:
         this->composer = comp;
     }
     const char *getMsgs() {
-        vector<string> messages = this->repository->getAll();
+        std::vector<std::string> messages = this->repository->getAll();
         return this->composer->composeSite(messages);
     }
 
-    void postMsg(string msg) {
+    void postMsg(std::string msg) {
         repository->add(msg);
     }
 
