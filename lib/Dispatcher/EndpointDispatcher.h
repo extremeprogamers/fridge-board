@@ -30,6 +30,18 @@ public:
     void *deleteMsg(int id) {
         repository->remove(id);
     }
+
+    void handleSsid(string){
+
+    }
+
+    void handlePassword(string){
+
+    }
+
+    void handleManager(){
+        
+    }
 };
 
 #endif
