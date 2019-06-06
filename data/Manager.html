@@ -7,14 +7,10 @@
                 <body>
                     <div class="container">
                         <h3>Manager</h3>
-                                <form action="/changessid" method="post">
-                                    <b>SSID:</b> <input type="text" name="ssid">
-                                            <input class="waves-light btn green" type="submit" value="CHANGE SSID">
-                                </form>
-                                <br> <br>
-                                <form action="/changepassword" method="post">
-                                    <b>Password:</b> <input type="text" name="password">
-                                            <input class="waves-light btn green" type="submit" value="CHANGE PASSWORD">
+                                <form action="/admin/settings" method="post">
+                                    <b>SSID:</b> <input type="text" name="ssid"><br>
+                                    <b>Password:</b> <input type="text" name="pass">
+                                    <input minlength="8" class="waves-light btn green" type="submit" value="CHANGE SETTINGS">
                                 </form>
                     </div>
                 </body>
