@@ -1,4 +1,8 @@
 {
     "ssid": "oskaro",
-    "pass": "password"
+    "pass": "password",
+    "ip1": 192,
+    "ip2": 168,
+    "ip3": 11,
+    "ip4": 1
 }
