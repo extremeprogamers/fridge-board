@@ -36,7 +36,7 @@ public:
                     "  <br> <br> \n"
                     "  <form action=\"/messages\" method=\"post\">\n"
                     "    <b>New note:</b> <input type=\"text\" name=\"note\">\n"
-                    "    <input class=\"waves-light btn green\" type=\"submit\" value=\"Add note\">\n"
+                    "    <input class=\"waves-light btn green\" type=\"submit\" value=\"Add note\" maxlength=\"50\">\n"
                     "  </form>\n"
                     "</div>\n"
                     "</body>\n"
