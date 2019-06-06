@@ -13,33 +13,59 @@ DatabaseRepository *db = new DatabaseRepository();
 ComposerImpl *composer = new ComposerImpl();
 EndpointDispatcher *dispatcher = new EndpointDispatcher(db, composer);
 
-void handleRoot() {
+void handleRoot()
+{
   server.send(200, "text/html", dispatcher->getMsgs());
+  vector<string> messages = db->getAll();
+  string message;
+  for(auto & element : messages) {
+    message += element;
+  }
+  Serial.println(message.c_str());
 }
 
-void handleDelete() {
-  int id = server.arg("messageId").toInt();
-  dispatcher->deleteMsg(id);
-  server.sendHeader("Location", String("/"), true);
-  server.send(302, "text/html", "");
-}
-
-void handlePost() {
+void handlePost()
+{
   String message = server.arg("note");
   char _message[sizeof(message)];
   message.toCharArray(_message, sizeof(_message));
   dispatcher->postMsg(_message);
   server.sendHeader("Location", String("/"), true);
-  server.send(302, "text/html", "");
+  server.send(302, "text/plain", "");
 }
 
-void sendCss() {
+void handleSSID(){
+  String ssid = server.arg("ssid");
+  char _ssid[sizeof(ssid)];
+  ssid.toCharArray(_ssid, sizeof(_ssid));
+  dispatcher->postSsid(_ssid);
+  server.sendHeader("Location", String("/manager"), true);
+  server.send(302, "text/plain", "");
+}
+
+void handlePassword(){
+  String password = server.arg("password");
+  char _password[sizeof(password)];
+  password.toCharArray(_password, sizeof(_password));
+  dispatcher->postPassword(_password);
+  server.sendHeader("Location", String("/manager"), true);
+  server.send(302, "text/plain", "");
+}
+
+void handleManager(){
+  server.send(200, "text/html", dispatcher->getManager());
+}
+
+void sendCss()
+{
   File file = SPIFFS.open("/materialize.min.css", "r"); // Open it
-  server.streamFile(file, "text/css");    // And send it to the client
+  size_t sent = server.streamFile(file, "text/css");    // And send it to the client
   file.close();
 }
 
-void setup() {
+void setup()
+{
+
   SPIFFS.begin();
   IPAddress ip(192, 168, 11, 23);
   IPAddress gateway(192, 168, 11, 1);
@@ -50,7 +76,7 @@ void setup() {
   Serial.println(WiFi.localIP());
 
   Serial.print("Setting soft-AP ... ");
-  boolean result = WiFi.softAP("ESPSKAR", "password");
+  boolean result = WiFi.softAP( "ESPSKAR", "password");
   if (result == true)
   {
     Serial.println("Ready");
@@ -63,11 +89,16 @@ void setup() {
   server.on("/materialize.min.css", HTTP_GET, sendCss);
   server.on("/", handleRoot);
   server.on("/messages", HTTP_POST, handlePost);
-  server.on("/messages/delete", HTTP_POST, handleDelete);
+  server.on("/changessid", HTTP_POST, handleSSID);
+  server.on("/changepassword", HTTP_POST, handlePassword);
+  server.on("/manager", HTTP_GET, handleManager);
+
   server.begin();
   Serial.println("HTTP server started");
+
 }
 
-void loop() {
+void loop()
+{
   server.handleClient();
 }
