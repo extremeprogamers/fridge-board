@@ -13,21 +13,18 @@ DatabaseRepository *db = new DatabaseRepository();
 ComposerImpl *composer = new ComposerImpl();
 EndpointDispatcher *dispatcher = new EndpointDispatcher(db, composer);
 
-void handleRoot()
-{
+void handleRoot(){
   server.send(200, "text/html", dispatcher->getMsgs());
 }
 
-void handleDelete()
-{
+void handleDelete(){
   int id = server.arg("messageId").toInt();
   dispatcher->deleteMsg(id);
   server.sendHeader("Location", String("/"), true);
   server.send(302, "text/html", "");
 }
 
-void handlePost()
-{
+void handlePost(){
   String message = server.arg("note");
   char _message[sizeof(message)];
   message.toCharArray(_message, sizeof(_message));
@@ -36,15 +33,13 @@ void handlePost()
   server.send(302, "text/html", "");
 }
 
-void sendCss()
-{
+void sendCss(){
   File file = SPIFFS.open("/materialize.min.css", "r"); // Open it
   server.streamFile(file, "text/css");    // And send it to the client
   file.close();
 }
 
-void setup()
-{
+void setup(){
 
   SPIFFS.begin();
   IPAddress ip(192, 168, 11, 23);
@@ -57,12 +52,10 @@ void setup()
 
   Serial.print("Setting soft-AP ... ");
   boolean result = WiFi.softAP("ESPSKAR", "password");
-  if (result == true)
-  {
+  if (result == true){
     Serial.println("Ready");
   }
-  else
-  {
+  else{
     Serial.println("Failed!");
   }
 
@@ -74,7 +67,6 @@ void setup()
   Serial.println("HTTP server started");
 }
 
-void loop()
-{
+void loop(){
   server.handleClient();
 }
