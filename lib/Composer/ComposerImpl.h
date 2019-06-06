@@ -4,18 +4,15 @@
 #include "string.h"
 
 template <typename T>
-std::string to_string(const T &obj)
-{
+std::string to_string(const T &obj){
     std::stringstream ss;
     ss << obj;
     return ss.str();
 }
 
-class ComposerImpl : public Composer
-{
+class ComposerImpl : public Composer{
 public:
-    const char *composeSite(vector<string> messages)
-    {
+    const char *composeSite(vector<string> messages){
         string t = "<html>\n"
                    "\n"
                    "<meta name=\"viewport\" content=\"width=device-width\">\n"
@@ -48,18 +45,15 @@ public:
         return out.c_str();
     };
 
-    string composeGetMessages(vector<string> messages)
-    {
+    string composeGetMessages(vector<string> messages){
         string message;
-        for (int i = 0; i < messages.size(); i++)
-        {
+        for (int i = 0; i < messages.size(); i++){
             message += composeMessage(messages.at(i), i);
         }
         return message;
     };
 
-    string composeMessage(string msg, int id)
-    {
+    string composeMessage(string msg, int id){
         char str[12];
         sprintf(str, "%d", id);
         string s = str;
