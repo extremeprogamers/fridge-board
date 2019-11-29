@@ -12,14 +12,14 @@ class MockMessagesRepository : public MessagesRepository {
 public:
     MOCK_METHOD1(add, bool(std::string));
     MOCK_METHOD1(remove, bool(int));
-    MOCK_METHOD0(getAll, std::vector<std::string>(void));
+    MOCK_METHOD0(getAll, std::map<int, std::string>(void));
     MOCK_METHOD0(clear, bool(void));
 };
 
 class MockComposer : public Composer {
 public:
-    MOCK_METHOD1(composeSite, const char *(std::vector<std::string>));
-    MOCK_METHOD1(composeGetMessages, std::string(std::vector<std::string>));
+    MOCK_METHOD1(composeSite, const char *(std::map<int, std::string>));
+    MOCK_METHOD1(composeGetMessages, std::string(std::map<int, std::string>));
     MOCK_METHOD2(composeMessage, std::string(std::string, int));
 };
 
@@ -29,9 +29,9 @@ TEST(dispatcher, getMsgs) {
     MockComposer mockComposer;
     EndpointDispatcher *dispatcher = new EndpointDispatcher(&mockRepository, &mockComposer);
 
-    std::vector<std::string> mockMessages;
+    std::map<int, std::string> mockMessages;
     std::string t1 = "test";
-    mockMessages.push_back(t1);
+    mockMessages.emplace(0, t1);
 
     EXPECT_CALL(mockComposer, composeSite(mockMessages))
         .Times(1)
